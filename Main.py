@@ -1,4 +1,3 @@
-from pickle import TRUE
 from time import sleep
 import speech_recognition as sr
 import pyttsx3
@@ -48,11 +47,22 @@ def main():
     if data.lower() == "clear the screen":
         os.system('cls')
         tell("Complete Screen Cleaning")
-    elif data.lower() == "my path":
+    elif data.lower() == "where am i":
+        sleep(1)
         print(os.path)
         tell(f"Your Path Is {os.path}")
     elif data.lower() == "who are you":
-           tell("Hi I am Whiteant Personal Assistant")
+           tell("Hi I am White Ant Personal Assistant")
+           sleep(1)
+    elif data.lower() == "my friends":
+           tell("Arpita And konamona")
+           sleep(1)
+    elif data.lower() == "stop":
+           tell("Oky Bye Bye")
+           exit()
+
+    else:
+        tell("What you Say I don't Recognise Say Again ")
 
 
 
@@ -60,7 +70,7 @@ def main():
 
 
 if __name__ == '__main__':
-        while TRUE:
+        while True:
             main()
             sleep(3)
 
