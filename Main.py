@@ -52,7 +52,7 @@ def main():
         print(os.path)
         tell(f"Your Path Is {os.path}")
     elif data.lower() == "who are you":
-           tell("Hi I am White Ant Personal Assistant")
+           tell("Hi I am White Ant's Personal Assistant")
            sleep(1)
     elif data.lower() == "my friends":
            tell("Arpita And konamona")
