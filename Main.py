@@ -1,47 +1,72 @@
-from distutils.command.clean import clean
-from time import sleep
-from unicodedata import decimal
-from antapi import decrypt , encrypt
+import time
+from antapi import decrypt, encrypt
 import PIL.Image as Image
 import io
 import subprocess
 import wolframalpha
 import pyttsx3
-import tkinter
-import json
-import random
-import operator
 import speech_recognition as sr
-import datetime
-import wikipedia
 import webbrowser
 import os
-import winshell
-import pyjokes
-import feedparser
-import smtplib
-import ctypes
-import time
-import shutil
-from twilio.rest import Client
-from clint.textui import progress
-from ecapture import ecapture as ec
-from bs4 import BeautifulSoup
-import win32com.client as wincl
-from urllib.request import urlopen
-
-
+from playsound import playsound
+from pynput.keyboard import Key,Controller
+keyboard = Controller()
 
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 140)
+engine.setProperty('rate', 160)
+
+
+
+#wolframal
+app_id = "G375LT-LXHW8RY4ET"
+
+def big_main():
+        while True:
+           r = sr.Recognizer()
+           with sr.Microphone() as source:
+                os.system("cls")
+                print(".")
+                r.pause_threshold = 0.5
+                audio = r.listen(source)
+           try:
+                os.system("cls")
+                print("-")
+                query = r.recognize_google(audio, language='en-us')
+                for i in ["cherry","bot","siri","assistant","moga","abul","bokul","monu"]:
+                    if (i in query.lower()):
+                        tell("Yes Sir!")
+                        try:
+                            playsound('sound.wav')  
+                            main()
+                        except:
+                            main()
+                        # while True:
+                        #     playsound('sound.wav')
+                        #     if main() == 0:
+                        #         break
+                    elif ("close" in query.lower()):
+                        tell("ok")
+                        exit()
+                        
+           except Exception as e:
+                        os.system("cls")
+                        print("*")
+
+
+def qna(q):
+    client = wolframalpha.Client(app_id)
+    res = client.query(q)
+    answer = next(res.results).text
+    return answer
 
 
 
 
 def takeCommand():
+    query = ""
     r = sr.Recognizer()
     with sr.Microphone() as source:
         os.system("cls")
@@ -51,7 +76,7 @@ def takeCommand():
     try:
         os.system("cls")
         print("^_^'")
-        query = r.recognize_google(audio, language ='en-US')
+        query = r.recognize_google(audio, language ='en-us')
 
     except Exception as e:
         os.system("cls")
@@ -59,52 +84,17 @@ def takeCommand():
     return query
 
 
-
-def wishMe():
-    hour = int(datetime.datetime.now().hour)
-    if hour>= 0 and hour<12:
-        tell("Good Morning Sir !")
-
-    elif hour>= 12 and hour<18:
-        tell("Good Afternoon Sir !")
-
-    else:
-        tell("Good Evening Sir !")
-    assname =("Cherry")
-    tell("I am White Ant personal Assistant")
-    tell(assname)
-
-
-
-def sendEmail(to, content):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-
-    # Enable low security in gmail
-    server.login('your email id', 'your email password')
-    server.sendmail('your email id', to, content)
-    server.close()
-
-
-
-
-
-
-
-
-
-
-#my
-
-
-
-
 def g_search(keyword):
     webbrowser.open(f"https://www.google.com/search?q={keyword}", new=2)
 
+def you_s(keyword):\
+        webbrowser.open(f"https://www.youtube.com/results?search_query={keyword}", new=2)
+
+
 def p_s(keword):
-    os.system(f"start firefox -private https://www.google.com/search?q={keyword}")
+    # subprocess.call("start firefox -private ")
+   webbrowser.open(f"https://www.{keword}.com/", new=2)
+
 
 def POMH(hash):
 
@@ -129,16 +119,47 @@ def tell(talk):
         engine.say(talk)
         engine.runAndWait()
 
-
+def say(something):
+    tell(something)
 
 
 def writesome(x):
-    print(x)
+    os.system(f"echo '{x}'")
 
 
+def sound_Inc():
+        for i in range(5):
+            keyboard.press(Key.media_volume_up)
+            keyboard.release(Key.media_volume_up)
+            time.sleep(0.1)
+
+
+def sound_Dec():
+        for i in range(10):
+            keyboard.press(Key.media_volume_down)
+            keyboard.release(Key.media_volume_down)
+            time.sleep(0.1)
+
+
+
+def pause():
+    keyboard.press(Key.media_play_pause)
+    keyboard.release(Key.media_play_pause)
+
+def prev_med():
+    keyboard.press(Key.media_previous)
+    keyboard.release(Key.media_previous)
+
+def next_med():
+    keyboard.press(Key.media_next)
+    keyboard.release(Key.media_next)
+
+
+#main
 def main():
     data = takeCommand().lower()
-  #v hobe edike
+    if(data == ""):
+        return 0
     if decrypt("vw}y$bshxIyllhJEehJDH") in data:
         tell("Pass Code")
         dat = takeCommand()
@@ -150,10 +171,18 @@ def main():
                g_search(data[13:])
         else:
             tell("No keyword")
-    elif "private search" in data:
+    
+    elif "youtube search" in data:
         if(data[14:]):
                tell("Searching.... ")
-               g_search(data[14:])
+               you_s(data[14:])
+        else:
+            tell("No keyword")
+    
+    elif "web" in data:
+        if(data[3:]):
+               tell("Wait a second")
+               p_s(data[3:])
         else:
             tell("No keyword")
 
@@ -162,9 +191,9 @@ def main():
         subprocess.call("C:\\Riot Games\\Riot Client\\RiotClientServices.exe")
     elif "youtube" in data:
         os.system("start firefox youtube.com")
-    elif "stop" in data:
-        tell("Good Bye Pi pi ")
-        return 0
+    # elif "bye" in data:
+    #     tell("Good Bye Pi pi ")
+    #     return 0
     elif "cartoon" in data:
         os.system("start firefox https://9anime.id/")
     elif "shutdown pc" in data:
@@ -173,33 +202,29 @@ def main():
         subprocess.call(["shutdown", "/r"])
     elif "log off" in data:
         subprocess.call(["shutdown", "/l "])
-
-
+    elif 'repeat' in data:
+        say(data[6:])
+    elif "increase volume" in data:
+        sound_Inc()
+    elif "decrease volume" in data:
+        sound_Dec()
+    elif "pause" or "play" in data:
+        pause()
+    elif "prevous" in data:
+        prev_med()
+    elif "next" in data:
+        next_med()
+    else:
+        tell(qna(data))
+    
 
 if __name__ == '__main__':
-        clean = lambda: os.system("cls")
-        clean()
+        os.system("cls")
+        big_main()
+        # q = takeCommand()
+        # print(q)
 
+        
+        
+        
 
-        while True:
-           r = sr.Recognizer()
-           with sr.Microphone() as source:
-                os.system("cls")
-                print(".")
-                r.pause_threshold = 0.5
-                audio = r.listen(source)
-           try:
-                os.system("cls")
-                print("-")
-                query = r.recognize_google(audio, language='en-US')
-                if ("cherry" in query.lower()):
-                        wishMe()
-                        while True:
-                            if main() == 0:
-                                break
-                elif ("close" in query.lower()):
-                    exit()
-
-           except Exception as e:
-                        os.system("cls")
-                        print("*")

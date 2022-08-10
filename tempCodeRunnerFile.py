@@ -1,1 +1,2 @@
-personal
+        q = takeCommand()
+        print(q)
