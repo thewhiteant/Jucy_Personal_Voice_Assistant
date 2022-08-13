@@ -9,6 +9,7 @@ import speech_recognition as sr
 import webbrowser
 import os
 from playsound import playsound
+
 from pynput.keyboard import Key,Controller
 keyboard = Controller()
 
@@ -17,7 +18,10 @@ engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 engine.setProperty('rate', 160)
-
+all_command= ["google search","youtube","youtube search","web",
+             "competitive game time","grinding game","cartoon","play",
+             "pause", "continue","shutdown pc","restart the pc","log off",
+             "increase volume","decrease volume","prevous","next","open"]
 
 
 #wolframal
@@ -35,19 +39,13 @@ def big_main():
                 os.system("cls")
                 print("-")
                 query = r.recognize_google(audio, language='en-us')
-                for i in ["cherry","bot","siri","assistant","moga","abul","bokul","monu"]:
-                    if (i in query.lower()):
-                        tell("Yes Sir!")
-                        try:
-                            playsound('sound.wav')  
+                if any(k in query.lower() for k in  ["cherry" , "jerry","sirri","bot","monu","hey"]):
+                            tell("Yes Sir!")  
+                            playsound('O:\\Works\\JucyAssistant\\sound.wav')
                             main()
-                        except:
-                            main()
-                        # while True:
-                        #     playsound('sound.wav')
-                        #     if main() == 0:
-                        #         break
-                    elif ("close" in query.lower()):
+            
+
+                elif ("close" in query.lower()):
                         tell("ok")
                         exit()
                         
@@ -61,7 +59,6 @@ def qna(q):
     res = client.query(q)
     answer = next(res.results).text
     return answer
-
 
 
 
@@ -154,77 +151,106 @@ def next_med():
     keyboard.press(Key.media_next)
     keyboard.release(Key.media_next)
 
+def O_app(me):
+    if any(k in me for k in  ["visual studio" , "vs code"]):
+            os.system("code")
+    else:
+        os.system(me)
+    
+
+def chat(name):
+    pass
+
+qn =  ["what" , "how" , "where" , "who" , "why" , "when"]
 
 #main
-def main():
-    data = takeCommand().lower()
-    if(data == ""):
-        return 0
-    if decrypt("vw}y$bshxIyllhJEehJDH") in data:
-        tell("Pass Code")
-        dat = takeCommand()
-        if dat  == decrypt("9z4y4rIBD"):
-             POMH(encrypt(dat))
-    elif "google search" in data:
-        if(data[13:]):
-               tell("Searching.... ")
-               g_search(data[13:])
-        else:
-            tell("No keyword")
-    
-    elif "youtube search" in data:
-        if(data[14:]):
-               tell("Searching.... ")
-               you_s(data[14:])
-        else:
-            tell("No keyword")
-    
-    elif "web" in data:
-        if(data[3:]):
-               tell("Wait a second")
-               p_s(data[3:])
-        else:
-            tell("No keyword")
+def main():   
+        al = takeCommand().lower()
+    # matches = [x for x in all_command if x in al]
+    # for data in matches:
+    #     tell(data)
 
-    elif "competitive game time" in data:
-        tell("Valorant loading")
-        subprocess.call("C:\\Riot Games\\Riot Client\\RiotClientServices.exe")
-    elif "youtube" in data:
-        os.system("start firefox youtube.com")
-    # elif "bye" in data:
-    #     tell("Good Bye Pi pi ")
-    #     return 0
-    elif "cartoon" in data:
-        os.system("start firefox https://9anime.id/")
-    elif "shutdown pc" in data:
-        subprocess.call(["shutdown", "/s"])
-    elif "restart the pc" in data:
-        subprocess.call(["shutdown", "/r"])
-    elif "log off" in data:
-        subprocess.call(["shutdown", "/l "])
-    elif 'repeat' in data:
-        say(data[6:])
-    elif "increase volume" in data:
-        sound_Inc()
-    elif "decrease volume" in data:
-        sound_Dec()
-    elif "pause" or "play" in data:
-        pause()
-    elif "prevous" in data:
-        prev_med()
-    elif "next" in data:
-        next_med()
-    else:
-        tell(qna(data))
+        data = al
+        if(data == ""):
+            return 0
+        if decrypt("vw}y$bshxIyllhJEehJDH") in data:
+            tell("Pass Code")
+            dat = takeCommand()
+            if dat  == decrypt("9z4y4rIBD"):
+                POMH(encrypt(dat))
     
+        elif any(c in data for c in qn):
+                tell(qna(data))
+
+        
+        elif "google search" in data:
+            if(data[13:]):
+                tell("Searching.... ")
+                g_search(data[13:])
+            else:
+                tell("No keyword")
+        
+        elif "youtube search" in data:
+            if(data[14:]):
+                tell("Searching.... ")
+                you_s(data[14:])
+            else:
+                tell("No keyword")
+        
+        elif "web" in data:
+            if(data[3:]):
+                tell("Wait a second")
+                p_s(data[3:])
+            else:
+                tell("No keyword")
+
+        elif "competitive game time" in data:
+            tell("Valorant loading")
+            subprocess.call("C:\\Riot Games\\Riot Client\\RiotClientServices.exe")
+        elif "grinding game" in data:
+            subprocess.call("M:\\Game\\Genshin\\Genshin Impact game\\GenshinImpact.exe")
+        elif "youtube" in data:
+            os.system("start firefox youtube.com")
+        elif "cartoon" in data:
+            os.system("start firefox https://9anime.id/")
+        elif "shutdown pc" in data:
+            subprocess.call(["shutdown", "/s"])
+        elif "restart the pc" in data:
+            subprocess.call(["shutdown", "/r"])
+        elif "log off" in data:
+            subprocess.call(["shutdown", "/l "])
+        elif 'repeat' in data:
+            say(data[6:])
+        elif "increase volume" in data:
+            sound_Inc()
+        elif "decrease volume" in data:
+            sound_Dec()
+        elif any(k in data for k in  ["play" , "pause", "continue"]):
+            pause()
+            tell("done")
+        elif "prevous" in data:
+            prev_med()
+        elif "next" in data:
+            next_med()
+        elif "open" in data:
+            tell("ok")
+            O_app(data[4:])   
+        else:
+            tell("NO Command")
+        
+
+
 
 if __name__ == '__main__':
         os.system("cls")
         big_main()
         # q = takeCommand()
         # print(q)
+        
+        # str = "play and increase volume pause"
+        # matches = [x for x in all_command if x in str]
+        # print(matches)
+        
 
-        
-        
-        
-
+        #TODO: React Face
+        #TODO: Multiple Command
