@@ -1,2 +1,0 @@
-        q = takeCommand()
-        print(q)
