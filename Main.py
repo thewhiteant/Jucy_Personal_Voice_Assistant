@@ -93,21 +93,6 @@ def p_s(keword):
    webbrowser.open(f"https://www.{keword}.com/", new=2)
 
 
-def POMH(hash):
-
-    path = "Sources/ok"
-    key = int(decrypt(hash))
-    fin = open(path, 'rb')
-    image = fin.read()
-    fin.close()
-    image = bytearray(image)
-    for index, values in enumerate(image):
-        image[index] = values ^ key
-
-
-    image = Image.open(io.BytesIO(image))
-    image.show()
-
 
 
 
@@ -173,15 +158,9 @@ def main():
         data = al
         if(data == ""):
             return 0
-        if decrypt("vw}y$bshxIyllhJEehJDH") in data:
-            tell("Pass Code")
-            dat = takeCommand()
-            if dat  == decrypt("9z4y4rIBD"):
-                POMH(encrypt(dat))
-    
-        elif any(c in data for c in qn):
-                tell(qna(data))
 
+        if any(c in data for c in qn):
+                tell(qna(data))
         
         elif "google search" in data:
             if(data[13:]):
@@ -244,6 +223,10 @@ def main():
 if __name__ == '__main__':
         os.system("cls")
         big_main()
+
+
+
+
         # q = takeCommand()
         # print(q)
         
