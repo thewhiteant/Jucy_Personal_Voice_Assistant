@@ -37,7 +37,7 @@ def big_main():
                 audio = r.listen(source)
            try:
                 os.system("cls")
-                print("-")
+                print("^.^")
                 query = r.recognize_google(audio, language='en-us')
                 if any(k in query.lower() for k in  ["cherry" , "jerry","sirri","bot","monu","hey"]):
                             tell("Yes Sir!")  
