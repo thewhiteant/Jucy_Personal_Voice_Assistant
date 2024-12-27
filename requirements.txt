@@ -1,0 +1,6 @@
+Pillow
+wolframalpha
+pyttsx3
+SpeechRecognition
+playsound
+pynput
