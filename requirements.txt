@@ -1,6 +1,9 @@
-Pillow
 wolframalpha
 pyttsx3
 SpeechRecognition
-playsound
+playsound3
 pynput
+pyaudio
+urllib3==1.26.6
+requests
+bs4
