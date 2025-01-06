@@ -229,52 +229,75 @@ def main():
         elif "turn" in data:
     # Check for 'light' or 'switch' in the command
             if "on" in data:
-                if "switch" in data:
+                if "fan" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres}/servoON", timeout=5)
+                             response = requests.get(f"http://{ipaddres2}/servoON", timeout=5)
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
                             pass
-                        tell("ok")
+                        tell("ok boss")
                         
                 if "light" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres}/ledON", timeout=5)
-                             
+                             response = requests.get(f"http://{ipaddres2}/homeLedON", timeout=5)
+                             response = requests.get(f"http://{ipaddres2}/extraLedON", timeout=5)
+                             tell("ok boss")
+                        except requests.exceptions.RequestException:
+                            # Silently ignore all exceptions
+                            pass
+                
+                if "outside led" in data:
+                        try:
+                             response = requests.get(f"http://{ipaddres2}/irLedON", timeout=5)
+                             tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
                             pass
 
-                
+
 
             elif "off" in data:
                 if "switch" in data:
                         try:
-                           response = requests.get(f"http://{ipaddres}/servoOFF", timeout=5)
+                           response = requests.get(f"http://{ipaddres2}/servoOFF", timeout=5)
+                           tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
                             pass
                 if "light" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres}/ledOFF", timeout=5)
+                             response = requests.get(f"http://{ipaddres2}/homeLedOFF", timeout=5)
+                             response = requests.get(f"http://{ipaddres2}/extraLedOFF", timeout=5)
+                             tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
                             pass
-            
-        elif "get" in data:
-               if "reading" in data:
-                    try:
-                               response = requests.get(f"http://{ipaddres}", timeout=5)
-                               soup = BeautifulSoup(response.text, 'html.parser')
-                               distance = soup.find('p', text=lambda x: x and 'Distance:' in x).text.split(':')[1].strip()
-                               print(distance)
-                               tell("Ths distance is: "+ distance+" centimeters.")
-                    except requests.exceptions.RequestException:
-                            pass
-        elif "alert" in data:
-              for i in range(100):  
-                tell("Fire Fire Alert Alert ")
                 
+                if "oustide led" in data:
+                        try:
+                             response = requests.get(f"http://{ipaddres2}/irLedOFF", timeout=5)
+                             tell("ok boss")
+                        except requests.exceptions.RequestException:
+                            # Silently ignore all exceptions
+                            pass
+
+
+        elif "lock the door" in data:
+            try:
+                            response = requests.get(f"http://{ipaddres1}/lock", timeout=5)
+                          
+            except requests.exceptions.RequestException:
+                            pass
+
+            tell("ok boss")        
+        elif "unlock the door" in data:
+                    try:
+                            response = requests.get(f"http://{ipaddres1}/unlock", timeout=5)
+                       
+                    except requests.exceptions.RequestException:    
+                             pass
+                    tell("ok boss")
+                            
         elif "cry" in data:
             playsound("galat.wav")
 
@@ -286,8 +309,9 @@ def main():
 
 if __name__ == '__main__':
         os.system("cls")
-        global ipaddres
-        ipaddres = input("If you have smart devices then ip nor skip: ")
+        global ipaddres1,ipaddres2
+        ipaddres1 = input("Keypad ESPIP: ")
+        ipaddres2 = input("Other ESPIP: ")
         big_main()
 
 
