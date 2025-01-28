@@ -4,6 +4,6 @@ SpeechRecognition
 playsound3
 pynput
 pyaudio
-urllib3==1.26.6
+urllib3==~> 1.26.17
 requests
 bs4
