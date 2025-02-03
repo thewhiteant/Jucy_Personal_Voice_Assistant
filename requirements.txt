@@ -7,3 +7,4 @@ pyaudio
 urllib3==~> 1.26.17
 requests
 bs4
+security==1.3.1
