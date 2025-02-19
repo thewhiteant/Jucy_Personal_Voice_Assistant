@@ -10,6 +10,8 @@ from playsound3 import playsound
 import requests
 from pynput.keyboard import Key,Controller
 from bs4 import BeautifulSoup
+from security import safe_requests
+
 keyboard = Controller()
 
 
@@ -30,7 +32,7 @@ def big_main():
   
         response = ""
         try:
-            response = requests.get(f"http://{ipaddres}")
+            response = safe_requests.get(f"http://{ipaddres}")
             if(response.status_code  != 200):
                     tell("Sorry ip Connection Not Stablished.")
         except Exception as e:
@@ -231,7 +233,7 @@ def main():
             if "on" in data:
                 if "fan" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres2}/servoON", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/servoON", timeout=5)
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
                             pass
@@ -239,8 +241,8 @@ def main():
                         
                 if "light" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres2}/homeLedON", timeout=5)
-                             response = requests.get(f"http://{ipaddres2}/extraLedON", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/homeLedON", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/extraLedON", timeout=5)
                              tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
@@ -248,7 +250,7 @@ def main():
                 
                 if "outside led" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres2}/irLedON", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/irLedON", timeout=5)
                              tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
@@ -259,15 +261,15 @@ def main():
             elif "off" in data:
                 if "switch" in data:
                         try:
-                           response = requests.get(f"http://{ipaddres2}/servoOFF", timeout=5)
+                           response = safe_requests.get(f"http://{ipaddres2}/servoOFF", timeout=5)
                            tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
                             pass
                 if "light" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres2}/homeLedOFF", timeout=5)
-                             response = requests.get(f"http://{ipaddres2}/extraLedOFF", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/homeLedOFF", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/extraLedOFF", timeout=5)
                              tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
@@ -275,7 +277,7 @@ def main():
                 
                 if "oustide led" in data:
                         try:
-                             response = requests.get(f"http://{ipaddres2}/irLedOFF", timeout=5)
+                             response = safe_requests.get(f"http://{ipaddres2}/irLedOFF", timeout=5)
                              tell("ok boss")
                         except requests.exceptions.RequestException:
                             # Silently ignore all exceptions
@@ -284,7 +286,7 @@ def main():
 
         elif "lock the door" in data:
             try:
-                            response = requests.get(f"http://{ipaddres1}/lock", timeout=5)
+                            response = safe_requests.get(f"http://{ipaddres1}/lock", timeout=5)
                           
             except requests.exceptions.RequestException:
                             pass
@@ -292,7 +294,7 @@ def main():
             tell("ok boss")        
         elif "unlock the door" in data:
                     try:
-                            response = requests.get(f"http://{ipaddres1}/unlock", timeout=5)
+                            response = safe_requests.get(f"http://{ipaddres1}/unlock", timeout=5)
                        
                     except requests.exceptions.RequestException:    
                              pass
