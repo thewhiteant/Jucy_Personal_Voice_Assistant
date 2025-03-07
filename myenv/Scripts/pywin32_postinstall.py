@@ -11,8 +11,6 @@ import sysconfig
 import tempfile  # Send output somewhere so it can be found if necessary...
 import winreg
 
-tee_f = open(os.path.join(tempfile.gettempdir(), "pywin32_postinstall.log"), "w")
-
 
 class Tee:
     def __init__(self, file):
